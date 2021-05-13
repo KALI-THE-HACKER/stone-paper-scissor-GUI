@@ -1,3 +1,7 @@
+"""
+Message for rdofficial : "Bro bug is in 'play again', I want to make my programme run again when user clicks on button,kindly check the code and solve the bug and please upgrade the code also
+
+"""
 from tkinter import *
 from tkinter import messagebox as mb
 import random
