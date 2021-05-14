@@ -26,6 +26,7 @@ try:
     from tkinter import *
     from tkinter import messagebox as mb
     from random import randint
+    from datetime import datetime
 except Exception as e:
     # If there are any errors encountered during the importing of modules, then we display the error message on the console screen
 
@@ -34,6 +35,9 @@ except Exception as e:
 
 # Declaring the variable to store the score of the current game
 score = 0
+
+# Declaring the list object to store the logs of the game
+logs = []
 
 def checkResults(userEnteredChoice):
     """ The function which calculates the score of the game, using the user entered option and the computer generated random choice. Then sums up the actual score and displays the score on the messagebox. The function uses some conventions which are mentioned below :
@@ -52,6 +56,12 @@ And, the win, loss, and draw are generated using the rules of the old school gam
 
     # Getting the computer choice
     computerChoice = randint(1, 3)
+    log = {
+    "user_choice" : ['stone', 'paper', 'scissors'][userEnteredChoice - 1],
+    "computer_choice" : ['stone', 'paper', 'scissors'][computerChoice - 1],
+    "result" : "",
+    "timestamp" : datetime.timestamp(datetime.now()),
+    }
 
     # Calculating the result as per user entered choice
     if userEnteredChoice == 1:
@@ -62,20 +72,24 @@ And, the win, loss, and draw are generated using the rules of the old school gam
 
             score += 0
             mb.showinfo('Draw', f'The computer also choosed stone. Current score : {score}.')
+            log["result"] = 'draw'
         elif computerChoice == 2:
             # If the computer choosed paper, then its a loss
 
             score -= 10
             mb.showinfo('Loss', f'The computer choosed paper. Current score : {score}.')
+            log["result"] = 'loss'
         elif computerChoice == 3:
             # If the computer choosed scissors, then its a win
 
             score += 5
             mb.showinfo('Win', f'The computer choosed scissors. Current score : {score}.')
+            log["result"] = 'win'
         else:
             # If the computer choosen option is not recognized
 
             mb.showerror('Failure', f'The computer entered choice is not recognized. Current score : {score}.')
+            log["result"] = 'error'
     elif userEnteredChoice == 2:
         # If the user choosed paper
 
@@ -84,20 +98,24 @@ And, the win, loss, and draw are generated using the rules of the old school gam
 
             score += 5
             mb.showinfo('Win', f'The computer choosed stone. Current score : {score}.')
+            log["result"] = 'win'
         elif computerChoice == 2:
             # If the computer also choosed paper, then its a draw
 
             score += 0
             mb.showinfo('Draw', f'The computer also choosed paper. Current score : {score}.')
+            log["result"] = 'draw'
         elif computerChoice == 3:
             # If the computer choosed scissors, then its a loss
 
             score -= 10
             mb.showinfo('Loss', f'The computer choosed scissors. Current score : {score}.')
+            log["result"] = 'loss'
         else:
             # If the computer choosen option is not recognized
 
             mb.showerror('Failure', f'The computer entered choice is not recognized. Current score : {score}.')
+            log["result"] = 'error'
     elif userEnteredChoice == 3:
         # If the user choosed scissors
 
@@ -106,27 +124,36 @@ And, the win, loss, and draw are generated using the rules of the old school gam
 
             score -= 10
             mb.showinfo('Draw', f'The computer also choosed stone. Current score : {score}.')
+            log["result"] = 'loss'
         elif computerChoice == 2:
             # If the computer choosed paper, then its a win
 
             score += 5
             mb.showinfo('Win', f'The computer choosed paper. Current score : {score}.')
+            log["result"] = 'win'
         elif computerChoice == 3:
             # If the computer also choosed scissors, then its a draw
 
             score += 5
             mb.showinfo('Draw', f'The computer choosed scissors. Current score : {score}.')
+            log["result"] = 'draw'
         else:
             # If the computer choosen option is not recognized
 
             mb.showerror('Failure', f'The computer entered choice is not recognized. Current score : {score}.')
+            log["result"] = 'error'
     else:
         # If the user entered choice is not recognized
 
         mb.showerror('Invalid input', 'The option you entered is not recognized')
+        log["result"] = 'error'
 
+    # Updating the score label on the main tkinter window
     scoreLabelVariable.set(f'Current score : {score}')
     root.update_idletasks()
+
+    # Adding the current log to the main logs list
+    logs.append(log)
 
 def main():
     # Making some of the variables declared in this function, to be globally accessed
